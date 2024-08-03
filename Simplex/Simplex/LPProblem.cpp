@@ -41,11 +41,97 @@ Result LPProblem::solve() {
 std::vector<TableRow> LPProblem::convertLimitation() {
     auto limitsMatrix = _getLimitsMatrix();
     auto free = getFree();
-    std::vector<TableRow> middle;
 
-    for (int i = 0; i < limitsMatrix.size() - 1; i++) {
-        if (limitsMatrix[i][i] != 0) {
-            for (int j = i + 1; j < limitsMatrix.size(); j++)
+    struct check {
+        bool isGoodColumn;
+        int columnIndex, place;
+    };
+
+    std::vector<check> GoodColumn;
+    for (int i = 0; i < _count_limitation; i++) {
+        GoodColumn.push_back({ false, -1, -1 });
+    }
+
+    for (int i = 0; i < _count_limitation; i++) {
+        bool checked = true;
+        for (int j = 0; j < _count_variables; j++) {
+            if (limitsMatrix[i][j] == 1) {
+                for (int h = 0; h < _count_limitation; h++) {
+                    if (h != i) {
+                        if (limitsMatrix[h][j] != 0) {
+                            checked = false;
+                            break;
+                        }
+                    }
+                }
+                if (checked) {
+                    GoodColumn[i].isGoodColumn = true;
+                    GoodColumn[i].columnIndex = j;
+                    GoodColumn[i].place = i;
+                    break;
+                }
+            }
+        }
+    }
+
+    //std::cout << "Good columns: ";
+    //for (int i = 0; i < GoodColumn.size(); i++) {
+    //    std::cout << GoodColumn[i].isGoodColumn << ' ' << GoodColumn[i].columnIndex << ' ' << GoodColumn[i].place << std::endl;
+    //}
+    //std::cout << std::endl;
+
+    for (int i = 0; i < GoodColumn.size(); i++) {
+        if (GoodColumn[i].isGoodColumn) {
+            for (int j = 0; j < _count_limitation; j++) {
+                std::swap(limitsMatrix[j][GoodColumn[i].columnIndex], limitsMatrix[j][GoodColumn[i].place]);
+            }
+            std::swap(_var_order[GoodColumn[i].columnIndex], _var_order[i]);
+        }
+    }
+    
+    bool is_all_good_columns = false;
+    for (int i = 0; i < GoodColumn.size(); i++) {
+        if (!GoodColumn[i].isGoodColumn) {
+            break;
+        }
+    }
+
+    if (!is_all_good_columns) {
+        for (int i = 0; i < limitsMatrix.size() - 1; i++) {
+            if (limitsMatrix[i][i] != 0) {
+                for (int j = i + 1; j < limitsMatrix.size(); j++)
+                {
+                    double drib = limitsMatrix[j][i] / limitsMatrix[i][i];
+                    for (int k = 0; k < limitsMatrix[i].size(); k++)
+                    {
+                        double koef = drib * limitsMatrix[i][k];
+                        limitsMatrix[j][k] -= koef;
+                    }
+                    free[j] -= drib * free[i];
+                }
+            }
+            else {
+                for (int j = i + 1; j < limitsMatrix.size(); j++) {
+                    if (limitsMatrix[i][j] != 0) {
+                        for (int k = 0; k < limitsMatrix.size(); k++) {
+                            std::swap(limitsMatrix[k][j], limitsMatrix[k][i]);
+                        }
+                    }
+                    std::swap(_var_order[i], _var_order[j]);
+                    break;
+                }
+                i--;
+            }
+        }
+        for (int i = 0; i < limitsMatrix.size(); i++) {
+            double koef = limitsMatrix[i][i];
+            for (int j = i; j < limitsMatrix[i].size(); j++) {
+                limitsMatrix[i][j] /= koef;
+            }
+            free[i] /= koef;
+        }
+        for (int i = limitsMatrix.size() - 1; i > 0; i--) {
+            for (int j = i - 1; j >= 0; j--)
             {
                 double drib = limitsMatrix[j][i] / limitsMatrix[i][i];
                 for (int k = 0; k < limitsMatrix[i].size(); k++)
@@ -56,40 +142,10 @@ std::vector<TableRow> LPProblem::convertLimitation() {
                 free[j] -= drib * free[i];
             }
         }
-        else {
-            for (int j = i + 1; j < limitsMatrix.size(); j++) {
-                if (limitsMatrix[i][j] != 0) {
-                    for (int k = 0; k < limitsMatrix.size(); k++) {
-                        std::swap(limitsMatrix[k][j], limitsMatrix[k][i]);
-                    }
-                }
-                std::swap(_var_order[i], _var_order[j]);
-                break;
-            }
-            i--;
-        }
     }
-    for (int i = 0; i < limitsMatrix.size(); i++) {
-        double koef = limitsMatrix[i][i];
-        for (int j = i; j < limitsMatrix[i].size(); j++) {
-            limitsMatrix[i][j] /= koef;
-        }
-        free[i] /= koef;
+    for (int i = 0; i < _count_limitation; i++) {
         _basis.push_back(_var_order[i]);
     }
-    for (int i = limitsMatrix.size() - 1; i > 0; i--) {
-        for (int j = i - 1; j >= 0; j--)
-        {
-            double drib = limitsMatrix[j][i] / limitsMatrix[i][i];
-            for (int k = 0; k < limitsMatrix[i].size(); k++)
-            {
-                double koef = drib * limitsMatrix[i][k];
-                limitsMatrix[j][k] -= koef;
-            }
-            free[j] -= drib * free[i];
-        }
-    }
-
     for (int i = _basis.size(); i < _count_variables; i++) {
         _nonbasis.push_back(_var_order[i]);
     }
@@ -105,15 +161,13 @@ std::vector<TableRow> LPProblem::convertLimitation() {
         std::cout << std::setw(4) << ' ' << free[i] << std::endl;
     }
 
+    std::vector<TableRow> middle;
     for (int i = 0; i < limitsMatrix.size(); i++) {
         TableRow row;
         for (int j = _basis.size(); j < limitsMatrix[i].size(); j++) {
             row.push_coef(limitsMatrix[i][j]);
         }
         row.push_free(free[i]);
-        //for (int h = 0; h < row.size(); h++) {
-        //    std::cout << row[h] << ' ';
-        //}
         std::cout << std::endl;
         middle.push_back(row);
     }

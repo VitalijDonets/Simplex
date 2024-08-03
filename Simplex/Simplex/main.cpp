@@ -21,7 +21,7 @@
 
 int main()
 {
-    std::ifstream file("test.txt");
+    std::ifstream file("test5.txt");
     LPProblem problem;
     //std::cin >> problem;
     file >> problem;

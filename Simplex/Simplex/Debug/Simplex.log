@@ -1,7 +1,22 @@
-﻿  main.cpp
-D:\Всяке\Нова папка (3)\Simplex\Simplex\Limitation.h(31,27): warning C4018: <: несоответствие типов со знаком и без знака
-D:\Всяке\Нова папка (3)\Simplex\Simplex\tableRow.h(11,27): warning C4018: <: несоответствие типов со знаком и без знака
-D:\Всяке\Нова папка (3)\Simplex\Simplex\tableRow.h(26,33): warning C4018: <: несоответствие типов со знаком и без знака
-D:\Всяке\Нова папка (3)\Simplex\Simplex\LPProblem.h(27,27): warning C4018: <: несоответствие типов со знаком и без знака
-D:\Всяке\Нова папка (3)\Simplex\Simplex\main.cpp(39,31): warning C4018: <: несоответствие типов со знаком и без знака
-  Simplex.vcxproj -> D:\Всяке\Нова папка (3)\Simplex\Debug\Simplex.exe
+﻿  LPProblem.cpp
+D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Simplex\Limitation.h(31,27): warning C4018: <: несоответствие типов со знаком и без знака
+D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Simplex\tableRow.h(11,27): warning C4018: <: несоответствие типов со знаком и без знака
+D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Simplex\tableRow.h(26,33): warning C4018: <: несоответствие типов со знаком и без знака
+D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Simplex\LPProblem.h(27,27): warning C4018: <: несоответствие типов со знаком и без знака
+D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Simplex\LPProblem.cpp(83,23): warning C4018: <: несоответствие типов со знаком и без знака
+D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Simplex\LPProblem.cpp(93,23): warning C4018: <: несоответствие типов со знаком и без знака
+D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Simplex\LPProblem.cpp(100,27): warning C4018: <: несоответствие типов со знаком и без знака
+D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Simplex\LPProblem.cpp(102,39): warning C4018: <: несоответствие типов со знаком и без знака
+D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Simplex\LPProblem.cpp(105,39): warning C4018: <: несоответствие типов со знаком и без знака
+D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Simplex\LPProblem.cpp(114,39): warning C4018: <: несоответствие типов со знаком и без знака
+D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Simplex\LPProblem.cpp(116,43): warning C4018: <: несоответствие типов со знаком и без знака
+D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Simplex\LPProblem.cpp(126,27): warning C4018: <: несоответствие типов со знаком и без знака
+D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Simplex\LPProblem.cpp(128,31): warning C4018: <: несоответствие типов со знаком и без знака
+D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Simplex\LPProblem.cpp(137,35): warning C4018: <: несоответствие типов со знаком и без знака
+D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Simplex\LPProblem.cpp(153,23): warning C4018: <: несоответствие типов со знаком и без знака
+D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Simplex\LPProblem.cpp(157,23): warning C4018: <: несоответствие типов со знаком и без знака
+D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Simplex\LPProblem.cpp(158,27): warning C4018: <: несоответствие типов со знаком и без знака
+D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Simplex\LPProblem.cpp(165,23): warning C4018: <: несоответствие типов со знаком и без знака
+D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Simplex\LPProblem.cpp(167,39): warning C4018: <: несоответствие типов со знаком и без знака
+D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Simplex\LPProblem.cpp(252,23): warning C4018: <: несоответствие типов со знаком и без знака
+  Simplex.vcxproj -> D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Debug\Simplex.exe
