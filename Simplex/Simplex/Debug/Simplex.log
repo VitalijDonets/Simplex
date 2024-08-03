@@ -1,0 +1,7 @@
+﻿  main.cpp
+D:\Всяке\Нова папка (3)\Simplex\Simplex\Limitation.h(31,27): warning C4018: <: несоответствие типов со знаком и без знака
+D:\Всяке\Нова папка (3)\Simplex\Simplex\tableRow.h(11,27): warning C4018: <: несоответствие типов со знаком и без знака
+D:\Всяке\Нова папка (3)\Simplex\Simplex\tableRow.h(26,33): warning C4018: <: несоответствие типов со знаком и без знака
+D:\Всяке\Нова папка (3)\Simplex\Simplex\LPProblem.h(27,27): warning C4018: <: несоответствие типов со знаком и без знака
+D:\Всяке\Нова папка (3)\Simplex\Simplex\main.cpp(39,31): warning C4018: <: несоответствие типов со знаком и без знака
+  Simplex.vcxproj -> D:\Всяке\Нова папка (3)\Simplex\Debug\Simplex.exe
