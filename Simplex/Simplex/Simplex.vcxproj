@@ -141,11 +141,13 @@
   <ItemGroup>
     <ClCompile Include="LPProblem.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="RationalNumber.cpp" />
     <ClCompile Include="SimplexTable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Limitation.h" />
     <ClInclude Include="LPProblem.h" />
+    <ClInclude Include="RationalNumber.h" />
     <ClInclude Include="SimplexTable.h" />
     <ClInclude Include="tableRow.h" />
   </ItemGroup>

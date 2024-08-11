@@ -1,27 +1,11 @@
 ﻿#include <iostream>
 #include <iomanip>
 #include <fstream>
-#include <vector>
-#include "SimplexTable.h"
+#include "LPProblem.h"
+#include "RationalNumber.h"
 
-//void convertToCanon(LPProblem& problem) {
-//    auto limits = problem.getLimitation();
-//    int counter = 0;
-//    std::vector<int> indexes;
-//    for (int i = 0; i < limits.size(); i++) {
-//        if (limits[i]->getSign() != "=") {
-//            indexes.push_back(i);
-//            counter++;
-//        }
-//    }
-//    for (int i = 0, j = 0; i < limits.size(); i++) {
-//
-//    }
-//}
-
-int main()
-{
-    std::ifstream file("test5.txt");
+int main(){
+    std::ifstream file("test4.txt");
     LPProblem problem;
     //std::cin >> problem;
     file >> problem;

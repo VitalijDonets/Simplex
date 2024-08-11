@@ -1,8 +1,8 @@
 #include <iomanip>
 #include "SimplexTable.h"
 
-double SimplexTable::_det(double rosv_elem, double diag_elem, double rosv_row_elem, double diag_row_elem) {
-    return rosv_elem * diag_elem - rosv_row_elem * diag_row_elem;
+RationalNumber SimplexTable::_det(RationalNumber rosv_elem, RationalNumber diag_elem, RationalNumber rosv_row_elem, RationalNumber diag_row_elem) {
+    return (rosv_elem * diag_elem) - (rosv_row_elem * diag_row_elem);
 }
 
 SimplexTable::SimplexTable(SimplexTable& other) {
@@ -137,7 +137,7 @@ void SimplexTable::rebuild() {
         }
     }
     struct divide {
-        double divide;
+        RationalNumber div;
         int index;
     };
     std::vector<divide> divides;
@@ -149,7 +149,8 @@ void SimplexTable::rebuild() {
     }
     divide min = divides[0];
     for (int i = 1; i < divides.size(); i++) {
-        if (min.divide > divides[i].divide) {
+        //std::cout << min.div << ' ' << divides[i].div << '\t' << (min.div > divides[i].div) << std::endl;
+        if (min.div > divides[i].div) {
             min = divides[i];
         }
     }
@@ -157,7 +158,7 @@ void SimplexTable::rebuild() {
     //std::cout << "rosv_row: " << rosv_row << ", rosv_column: " << rosv_column << std::endl;
     SimplexTable oldTable(*this);
     std::swap(this->_basis[rosv_row], this->_nonbasis[rosv_column]);
-    double rosv_elem = this->_table[rosv_row][rosv_column];
+    RationalNumber rosv_elem = this->_table[rosv_row][rosv_column];
     this->_table[rosv_row][rosv_column] = 1 / rosv_elem;
     for (int i = 0; i < _table[rosv_row].size(); i++) {
         if (i != rosv_column) {
@@ -176,7 +177,9 @@ void SimplexTable::rebuild() {
         if (i != rosv_row) {
             for (int j = 0; j < _table[i].size(); j++) {
                 if (j != rosv_column) {
-                    this->_table[i][j] = _det(rosv_elem, oldTable._table[i][j], oldTable._table[i][rosv_column], oldTable._table[rosv_row][j]) / rosv_elem;
+                    auto t = _det(rosv_elem, oldTable._table[i][j], oldTable._table[i][rosv_column], oldTable._table[rosv_row][j]);
+                    //std::cout << t << ' ' << rosv_elem << std::endl;
+                    this->_table[i][j] = t / rosv_elem;
                 }
             }
         }
@@ -188,8 +191,8 @@ void SimplexTable::rebuild() {
     }
 }
 
-std::vector<double> SimplexTable::getCurOptVector() {
-    std::vector<double> vec;
+std::vector<RationalNumber> SimplexTable::getCurOptVector() {
+    std::vector<RationalNumber> vec;
     for (int i = 0; i < _basis.size() + _nonbasis.size(); i++) {
         vec.push_back(0);
     }

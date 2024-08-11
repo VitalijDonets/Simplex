@@ -53,8 +53,8 @@ std::vector<TableRow> LPProblem::convertLimitation() {
     }
 
     for (int i = 0; i < _count_limitation; i++) {
-        bool checked = true;
         for (int j = 0; j < _count_variables; j++) {
+            bool checked = true;
             if (limitsMatrix[i][j] == 1) {
                 for (int h = 0; h < _count_limitation; h++) {
                     if (h != i) {
@@ -86,6 +86,7 @@ std::vector<TableRow> LPProblem::convertLimitation() {
                 std::swap(limitsMatrix[j][GoodColumn[i].columnIndex], limitsMatrix[j][GoodColumn[i].place]);
             }
             std::swap(_var_order[GoodColumn[i].columnIndex], _var_order[i]);
+            std::swap(_func_coef[GoodColumn[i].columnIndex], _func_coef[i]);
         }
     }
     
@@ -101,13 +102,13 @@ std::vector<TableRow> LPProblem::convertLimitation() {
             if (limitsMatrix[i][i] != 0) {
                 for (int j = i + 1; j < limitsMatrix.size(); j++)
                 {
-                    double drib = limitsMatrix[j][i] / limitsMatrix[i][i];
+                    RationalNumber drib = -limitsMatrix[j][i] / limitsMatrix[i][i];
                     for (int k = 0; k < limitsMatrix[i].size(); k++)
                     {
-                        double koef = drib * limitsMatrix[i][k];
-                        limitsMatrix[j][k] -= koef;
+                        RationalNumber koef = drib * limitsMatrix[i][k];
+                        limitsMatrix[j][k] += koef;
                     }
-                    free[j] -= drib * free[i];
+                    free[j] += drib * free[i];
                 }
             }
             else {
@@ -124,7 +125,7 @@ std::vector<TableRow> LPProblem::convertLimitation() {
             }
         }
         for (int i = 0; i < limitsMatrix.size(); i++) {
-            double koef = limitsMatrix[i][i];
+            RationalNumber koef = limitsMatrix[i][i];
             for (int j = i; j < limitsMatrix[i].size(); j++) {
                 limitsMatrix[i][j] /= koef;
             }
@@ -133,13 +134,13 @@ std::vector<TableRow> LPProblem::convertLimitation() {
         for (int i = limitsMatrix.size() - 1; i > 0; i--) {
             for (int j = i - 1; j >= 0; j--)
             {
-                double drib = limitsMatrix[j][i] / limitsMatrix[i][i];
+                RationalNumber drib = -limitsMatrix[j][i] / limitsMatrix[i][i];
                 for (int k = 0; k < limitsMatrix[i].size(); k++)
                 {
-                    double koef = drib * limitsMatrix[i][k];
-                    limitsMatrix[j][k] -= koef;
+                    RationalNumber koef = drib * limitsMatrix[i][k];
+                    limitsMatrix[j][k] += koef;
                 }
-                free[j] -= drib * free[i];
+                free[j] += drib * free[i];
             }
         }
     }
@@ -168,7 +169,6 @@ std::vector<TableRow> LPProblem::convertLimitation() {
             row.push_coef(limitsMatrix[i][j]);
         }
         row.push_free(free[i]);
-        std::cout << std::endl;
         middle.push_back(row);
     }
 
@@ -215,7 +215,7 @@ std::istream& operator>>(std::istream& in, LPProblem& problem) {
     for (int i = 0; i < problem._count_variables + 1; i++) {
         double coef;
         in >> coef;
-        problem._func_coef.push_back(coef);
+        problem._func_coef.push_back(RationalNumber(coef));
     }
     std::cout << "max or min: "; in >> problem._extr;
     //while (problem._extr != "max" || problem._extr != "min") {
@@ -234,7 +234,7 @@ std::istream& operator>>(std::istream& in, LPProblem& problem) {
         in >> type >> right;
         ILimitation* limit;
         if (type == "=") {
-            limit = new Equation(left_coef.begin(), left_coef.end(), right);
+            limit = new Equation(left_coef.begin(), left_coef.end(), RationalNumber(right));
         }
         else if (type == "<=") {
             limit = new LessEqual(left_coef.begin(), left_coef.end(), right);
@@ -247,8 +247,8 @@ std::istream& operator>>(std::istream& in, LPProblem& problem) {
     return in;
 }
 
-std::vector<std::vector<double>> LPProblem::_getLimitsMatrix() {
-    std::vector<std::vector<double>> matrix;
+std::vector<std::vector<RationalNumber>> LPProblem::_getLimitsMatrix() {
+    std::vector<std::vector<RationalNumber>> matrix;
     for (int i = 0; i < _limitation.size(); i++) {
         matrix.push_back(_limitation[i]->getLeft());
     }

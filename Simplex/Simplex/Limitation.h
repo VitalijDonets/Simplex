@@ -4,20 +4,22 @@
 #include <iostream>
 #include <vector>
 
+#include "RationalNumber.h"
+
 class ILimitation {
 protected:
-    std::vector<double> _left;
-    double _right = 0;
+    std::vector<RationalNumber> _left;
+    RationalNumber _right = 0;
 public:
-    std::vector<double> getLeft() {
+    std::vector<RationalNumber> getLeft() {
         return _left;
     }
-    double getRight() {
+    RationalNumber getRight() {
         return _right;
     }
     ILimitation() = default;
     template <class iter>
-    ILimitation(iter left_begin, iter left_end, double right) {
+    ILimitation(iter left_begin, iter left_end, RationalNumber right) {
         while (left_begin != left_end) {
             _left.push_back(*left_begin);
             left_begin++;
@@ -56,7 +58,7 @@ class Equation : public ILimitation {
 public:
     Equation() = default;
     template <class iter>
-    Equation(iter left_begin, iter left_end, double right)
+    Equation(iter left_begin, iter left_end, RationalNumber right)
         : ILimitation(left_begin, left_end, right) {}
     virtual ~Equation() = default;
     const std::string getLimitationType() {
@@ -74,7 +76,7 @@ class LessEqual : public ILimitation {
 public:
     LessEqual() = default;
     template <class iter>
-    LessEqual(iter left_begin, iter left_end, double right)
+    LessEqual(iter left_begin, iter left_end, RationalNumber right)
         : ILimitation(left_begin, left_end, right) {}
     virtual ~LessEqual() = default;
     const std::string getLimitationType() {
@@ -92,7 +94,7 @@ class GreatEqual : public ILimitation {
 public:
     GreatEqual() = default;
     template <class iter>
-    GreatEqual(iter left_begin, iter left_end, double right)
+    GreatEqual(iter left_begin, iter left_end, RationalNumber right)
         : ILimitation(left_begin, left_end, right) {}
     virtual ~GreatEqual() = default;
     const std::string getLimitationType() {

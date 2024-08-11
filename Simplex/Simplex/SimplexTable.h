@@ -6,13 +6,14 @@
 
 #include "LPProblem.h"
 #include "tableRow.h"
+#include "RationalNumber.h"
 
 class SimplexTable {
     std::vector<int> _basis, _nonbasis;
-    std::vector<double> _func_coef;
+    std::vector<RationalNumber> _func_coef;
     std::vector<TableRow> _table;
 
-    double _det(double rosv_elem, double diag_elem, double rosv_row_elem, double diag_row_elem);
+    RationalNumber _det(RationalNumber rosv_elem, RationalNumber diag_elem, RationalNumber rosv_row_elem, RationalNumber diag_row_elem);
 public:
     std::vector<int> getBasis() {
         return _basis;
@@ -31,7 +32,7 @@ public:
 
     void rebuild();
 
-    std::vector<double> getCurOptVector();
+    std::vector<RationalNumber> getCurOptVector();
 };
 
 #endif

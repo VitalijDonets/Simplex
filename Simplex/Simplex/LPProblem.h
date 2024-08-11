@@ -8,22 +8,22 @@
 #include "tableRow.h"
 
 struct Result {
-    std::vector<double> result;
+    std::vector<RationalNumber> result;
     bool incorrect = false, unlimit = false;
 };
 
 class LPProblem {
     int _count_variables = 0;
-    std::vector<double> _func_coef;
+    std::vector<RationalNumber> _func_coef;
     std::string _extr;
     std::vector<ILimitation*> _limitation;
     int _count_limitation = 0;
     std::vector<int> _var_order;
     std::vector<int> _basis, _nonbasis;
 
-    std::vector<std::vector<double>> _getLimitsMatrix();
+    std::vector<std::vector<RationalNumber>> _getLimitsMatrix();
 public:
-    ~LPProblem() {
+    virtual ~LPProblem() {
         for (int i = 0; i < _limitation.size(); i++) {
             delete _limitation[i];
         }
@@ -35,7 +35,7 @@ public:
     std::vector<ILimitation*> getLimitation() {
         return _limitation;
     }
-    std::vector<double> getFuncCoef() {
+    std::vector<RationalNumber> getFuncCoef() {
         return _func_coef;
     }
     //void setNewLimitations(std::vector<ILimitation*>& newLimitations) {
@@ -61,10 +61,10 @@ public:
         return _nonbasis;
     }
 
-    std::vector<double> getFree() {
-        std::vector<double> free;
+    std::vector<RationalNumber> getFree() {
+        std::vector<RationalNumber> free;
         for (int i = 0; i < _count_limitation; i++) {
-            free.push_back(_limitation[i]->getRight());
+            free.push_back(RationalNumber(_limitation[i]->getRight()));
         }
         return free;
     }
