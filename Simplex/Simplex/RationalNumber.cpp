@@ -240,3 +240,13 @@ void RationalNumber::cast() {
 		this->_denominator /= b;
 	}
 }
+
+RationalNumber RationalNumber::operator=(const RationalNumber& other) {
+	if (this == &other) {
+		return *this;
+	}
+
+	this->_numerator = other._numerator;
+	this->_denominator = other._denominator;
+	return *this;
+}

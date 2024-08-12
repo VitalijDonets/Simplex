@@ -8,13 +8,13 @@ class RationalNumber {
 	int _denominator = 1; //знаменник
 public:
 	RationalNumber() = default;
-	RationalNumber(int number) {
+	RationalNumber(const int number) {
 		this->_numerator = number;
 	}
 	//RationalNumber(double number) {
 	//	//this->_numerator = number;
 	//}
-	RationalNumber(int numerator, int denominator) {
+	RationalNumber(const int numerator, const int denominator) {
 		this->_numerator = numerator;
 		this->_denominator = denominator;
 		this->cast();
@@ -27,6 +27,8 @@ public:
 	virtual ~RationalNumber() = default;
 
 	void cast();
+
+	RationalNumber operator=(const RationalNumber& other);
 
 	friend RationalNumber operator+(const RationalNumber& first, const RationalNumber& second);
 	friend RationalNumber operator-(const RationalNumber& first, const RationalNumber& second);

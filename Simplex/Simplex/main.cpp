@@ -5,7 +5,7 @@
 #include "RationalNumber.h"
 
 int main() {
-    std::ifstream file("test3.txt");
+    std::ifstream file("test7.txt");
     LPProblem problem;
     //std::cin >> problem;
     file >> problem;

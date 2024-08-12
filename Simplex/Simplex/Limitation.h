@@ -26,7 +26,7 @@ public:
         }
         _right = right;
     }
-    ILimitation(ILimitation& other) {
+    ILimitation(const ILimitation& other) {
         for (int i = 0; i < other._left.size(); i++) {
             this->_left.push_back(other._left[i]);
         }
@@ -57,7 +57,7 @@ public:
         std::cout << ' ' << limit.getSign() << ' ' << limit._right;
         return out;
     }
-    virtual ILimitation* copy() = 0;
+    virtual std::shared_ptr<ILimitation> copy() = 0;
 };
 
 class Equation : public ILimitation {
@@ -73,8 +73,9 @@ public:
     const std::string getSign() {
         return "=";
     }
-    ILimitation* copy() {
-        return new Equation(_left.begin(), _left.end(), _right);
+    std::shared_ptr<ILimitation> copy() {
+        return std::make_shared<Equation>(_left.begin(), _left.end(), _right);
+        //return new Equation(_left.begin(), _left.end(), _right);
     }
 };
 
@@ -91,8 +92,9 @@ public:
     const std::string getSign() {
         return "<=";
     }
-    ILimitation* copy() {
-        return new LessEqual(_left.begin(), _left.end(), _right);
+    std::shared_ptr<ILimitation> copy() {
+        return std::make_shared<LessEqual>(_left.begin(), _left.end(), _right);
+        //return new LessEqual(_left.begin(), _left.end(), _right);
     }
 };
 
@@ -109,8 +111,9 @@ public:
     const std::string getSign() {
         return ">=";
     }
-    ILimitation* copy() {
-        return new GreatEqual(_left.begin(), _left.end(), _right);
+    std::shared_ptr<ILimitation> copy() {
+        return std::make_shared<GreatEqual>(_left.begin(), _left.end(), _right);
+        //return new GreatEqual(_left.begin(), _left.end(), _right);
     }
 };
 

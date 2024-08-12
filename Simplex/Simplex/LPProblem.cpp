@@ -239,15 +239,18 @@ std::istream& operator>>(std::istream& in, LPProblem& problem) {
             left_coef.push_back(coef);
         }
         in >> type >> right;
-        ILimitation* limit;
+        std::shared_ptr<ILimitation> limit;
         if (type == "=") {
-            limit = new Equation(left_coef.begin(), left_coef.end(), RationalNumber(right));
+            limit = std::make_shared<Equation>(left_coef.begin(), left_coef.end(), RationalNumber(right));
+            //limit = new Equation(left_coef.begin(), left_coef.end(), RationalNumber(right));
         }
         else if (type == "<=") {
-            limit = new LessEqual(left_coef.begin(), left_coef.end(), right);
+            limit = std::make_shared<LessEqual>(left_coef.begin(), left_coef.end(), RationalNumber(right));
+            //limit = new LessEqual(left_coef.begin(), left_coef.end(), right);
         }
         else if (type == ">=") {
-            limit = new GreatEqual(left_coef.begin(), left_coef.end(), right);
+            limit = std::make_shared<GreatEqual>(left_coef.begin(), left_coef.end(), RationalNumber(right));
+            //limit = new GreatEqual(left_coef.begin(), left_coef.end(), right);
         }
         problem._limitation.push_back(limit);
     }
@@ -274,43 +277,47 @@ void LPProblem::_convertToCanon() {
             check.push_back({ i, type });
         }
     }
-    std::vector<ILimitation*> limit_copy;
-    for (int i = 0; i < _count_limitation; i++) {
-        limit_copy.push_back(_limitation[i]);
-        //delete _limitation[i];
-    }
-    _limitation.clear();
-    for (int i = 0, counter = 0; i < _count_limitation; i++) {
-        std::string sign = limit_copy[i]->getSign();
-        if (sign == "=") {
-            auto coefs = limit_copy[i]->getLeft();
-            for (int i = 0; i < check.size(); i++) {
-                coefs.push_back(0);
-            }
-            _limitation.push_back(new Equation(coefs.begin(), coefs.end(), limit_copy[i]->getRight()));
+    if (check.size() != 0) {
+        std::vector<std::shared_ptr<ILimitation>> limit_copy;
+        for (int i = 0; i < _count_limitation; i++) {
+            limit_copy.push_back(_limitation[i]);
+            //delete _limitation[i];
         }
-        else {
+        _limitation.clear();
+        for (int i = 0, counter = 0; i < _count_limitation; i++) {
+            std::string sign = limit_copy[i]->getSign();
+            std::shared_ptr<ILimitation> limit;
             auto coefs = limit_copy[i]->getLeft();
-            for (int i = 0; i < check.size(); i++) {
-                if (i == counter) {
-                    if (sign == "<=") {
-                        coefs.push_back(1);
-                    }
-                    else if (sign == ">=") {
-                        coefs.push_back(-1);
-                    }
-                }
-                else {
+            if (sign == "=") {
+                for (int i = 0; i < check.size(); i++) {
                     coefs.push_back(0);
                 }
+                //_limitation.push_back(new Equation(coefs.begin(), coefs.end(), limit_copy[i]->getRight()));
             }
-            _limitation.push_back(new Equation(coefs.begin(), coefs.end(), limit_copy[i]->getRight()));
-            counter++;
+            else {
+                for (int i = 0; i < check.size(); i++) {
+                    if (i == counter) {
+                        if (sign == "<=") {
+                            coefs.push_back(1);
+                        }
+                        else if (sign == ">=") {
+                            coefs.push_back(-1);
+                        }
+                    }
+                    else {
+                        coefs.push_back(0);
+                    }
+                }
+                //_limitation.push_back(new Equation(coefs.begin(), coefs.end(), limit_copy[i]->getRight()));
+                counter++;
+            }
+            limit = std::make_shared<Equation>(coefs.begin(), coefs.end(), limit_copy[i]->getRight());
+            _limitation.push_back(limit);
         }
-    }
-    _count_variables += check.size();
-    for (int i = 0; i < check.size(); i++) {
-        _func_coef.push_back(0);
-        _var_order.push_back(_var_order.size() + 1);
+        _count_variables += check.size();
+        for (int i = 0; i < check.size(); i++) {
+            _func_coef.push_back(0);
+            _var_order.push_back(_var_order.size() + 1);
+        }
     }
 }

@@ -2,13 +2,12 @@
 D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Simplex\Limitation.h(30,27): warning C4018: <: несоответствие типов со знаком и без знака
 D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Simplex\Limitation.h(39,27): warning C4018: <: несоответствие типов со знаком и без знака
 D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Simplex\tableRow.h(13,27): warning C4018: <: несоответствие типов со знаком и без знака
-D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Simplex\tableRow.h(14,47): warning C4244: аргумент: преобразование "_Ty" в "int", возможна потеря данных
+D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Simplex\tableRow.h(14,47): warning C4244: аргумент: преобразование "_Ty" в "const int", возможна потеря данных
           with
           [
               _Ty=double
           ]
-D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Simplex\tableRow.h(17,17): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
+D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Simplex\tableRow.h(17,17): warning C4244: аргумент: преобразование "double" в "const int", возможна потеря данных
 D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Simplex\tableRow.h(29,33): warning C4018: <: несоответствие типов со знаком и без знака
-D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Simplex\LPProblem.h(30,27): warning C4018: <: несоответствие типов со знаком и без знака
 D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Simplex\main.cpp(22,27): warning C4018: <: несоответствие типов со знаком и без знака
   Simplex.vcxproj -> D:\Всяке\Нова папка (3)\Нова папка\Simplex\Simplex\Debug\Simplex.exe

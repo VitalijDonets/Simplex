@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <memory>
 
 #include "Limitation.h"
 #include "tableRow.h"
@@ -18,7 +19,7 @@ class LPProblem {
     std::vector<RationalNumber> _func_coef;
     std::vector<RationalNumber> _start_func_coef;
     std::string _extr;
-    std::vector<ILimitation*> _limitation;
+    std::vector<std::shared_ptr<ILimitation>> _limitation;
     int _count_limitation = 0;
     std::vector<int> _var_order;
     std::vector<int> _basis, _nonbasis;
@@ -27,15 +28,15 @@ class LPProblem {
     void _convertToCanon();
 public:
     virtual ~LPProblem() {
-        for (int i = 0; i < _limitation.size(); i++) {
-            delete _limitation[i];
-        }
+        //for (int i = 0; i < _limitation.size(); i++) {
+        //    delete _limitation[i];
+        //}
     }
     friend std::ostream& operator<<(std::ostream& out, LPProblem& problem);
     friend std::istream& operator>>(std::istream& in, LPProblem& problem);
     std::vector<TableRow> convertLimitation();
     Result solve();
-    std::vector<ILimitation*> getLimitation() {
+    std::vector<std::shared_ptr<ILimitation>> getLimitation() {
         return _limitation;
     }
     std::vector<RationalNumber> getFuncCoef() {

@@ -13,7 +13,7 @@ class SimplexTable {
     std::vector<RationalNumber> _func_coef;
     std::vector<TableRow> _table;
 
-    RationalNumber _det(RationalNumber rosv_elem, RationalNumber diag_elem, RationalNumber rosv_row_elem, RationalNumber diag_row_elem);
+    RationalNumber _det(RationalNumber& rosv_elem, RationalNumber& diag_elem, RationalNumber& rosv_row_elem, RationalNumber& diag_row_elem);
 public:
     std::vector<int> getBasis() {
         return _basis;

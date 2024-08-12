@@ -1,7 +1,7 @@
 #include <iomanip>
 #include "SimplexTable.h"
 
-RationalNumber SimplexTable::_det(RationalNumber rosv_elem, RationalNumber diag_elem, RationalNumber rosv_row_elem, RationalNumber diag_row_elem) {
+RationalNumber SimplexTable::_det(RationalNumber& rosv_elem, RationalNumber& diag_elem, RationalNumber& rosv_row_elem, RationalNumber& diag_row_elem) {
     return (rosv_elem * diag_elem) - (rosv_row_elem * diag_row_elem);
 }
 

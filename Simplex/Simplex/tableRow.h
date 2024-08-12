@@ -16,10 +16,10 @@ public:
         }
         _free = free_coef;
     }
-    void push_coef(RationalNumber elem) {
+    void push_coef(RationalNumber& elem) {
         _table_coef.push_back(elem);
     }
-    void push_free(RationalNumber elem) {
+    void push_free(RationalNumber& elem) {
         _free = elem;
     }
     int size() {
