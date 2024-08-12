@@ -14,7 +14,9 @@ struct Result {
 
 class LPProblem {
     int _count_variables = 0;
+    int _start_count_variables = 0;
     std::vector<RationalNumber> _func_coef;
+    std::vector<RationalNumber> _start_func_coef;
     std::string _extr;
     std::vector<ILimitation*> _limitation;
     int _count_limitation = 0;
@@ -22,6 +24,7 @@ class LPProblem {
     std::vector<int> _basis, _nonbasis;
 
     std::vector<std::vector<RationalNumber>> _getLimitsMatrix();
+    void _convertToCanon();
 public:
     virtual ~LPProblem() {
         for (int i = 0; i < _limitation.size(); i++) {
@@ -75,6 +78,14 @@ public:
 
     int getCountVariable() {
         return _count_variables;
+    }
+
+    RationalNumber getFuncValue(std::vector<RationalNumber>& x) {
+        RationalNumber res = 0;
+        for (int i = 0; i < _start_count_variables; i++) {
+            res += (_start_func_coef[i] * x[i]);
+        }
+        return res;
     }
 };
 

@@ -9,7 +9,9 @@
 #endif
 
 Result LPProblem::solve() {
+    this->_convertToCanon();
     Result res;
+    std::cout << *this << std::endl;
     SimplexTable table(*this);
     std::cout << table << std::endl;
     while (!table.is_startVec()) {
@@ -34,6 +36,9 @@ Result LPProblem::solve() {
             std::cout << table << std::endl;
         }
         res.result = table.getCurOptVector();
+        for (int i = _start_count_variables; i < _count_variables; i++) {
+            res.result.erase(res.result.begin() + _start_count_variables, res.result.end());
+        }
     }
     return res;
 }
@@ -208,6 +213,7 @@ std::ostream& operator<<(std::ostream& out, LPProblem& problem) {
 }
 std::istream& operator>>(std::istream& in, LPProblem& problem) {
     std::cout << "Count variables: "; in >> problem._count_variables;
+    problem._start_count_variables = problem._count_variables;
     for (int i = 0; i < problem._count_variables; i++) {
         problem._var_order.push_back(i + 1);
     }
@@ -216,6 +222,7 @@ std::istream& operator>>(std::istream& in, LPProblem& problem) {
         double coef;
         in >> coef;
         problem._func_coef.push_back(RationalNumber(coef));
+        problem._start_func_coef.push_back(RationalNumber(coef));
     }
     std::cout << "max or min: "; in >> problem._extr;
     //while (problem._extr != "max" || problem._extr != "min") {
@@ -253,4 +260,57 @@ std::vector<std::vector<RationalNumber>> LPProblem::_getLimitsMatrix() {
         matrix.push_back(_limitation[i]->getLeft());
     }
     return matrix;
+}
+
+void LPProblem::_convertToCanon() {
+    struct info {
+        int index;
+        std::string type;
+    };
+    std::vector<info> check;
+    for (int i = 0; i < _count_limitation; i++) {
+        std::string type = _limitation[i]->getSign();
+        if (type != "=") {
+            check.push_back({ i, type });
+        }
+    }
+    std::vector<ILimitation*> limit_copy;
+    for (int i = 0; i < _count_limitation; i++) {
+        limit_copy.push_back(_limitation[i]);
+        //delete _limitation[i];
+    }
+    _limitation.clear();
+    for (int i = 0, counter = 0; i < _count_limitation; i++) {
+        std::string sign = limit_copy[i]->getSign();
+        if (sign == "=") {
+            auto coefs = limit_copy[i]->getLeft();
+            for (int i = 0; i < check.size(); i++) {
+                coefs.push_back(0);
+            }
+            _limitation.push_back(new Equation(coefs.begin(), coefs.end(), limit_copy[i]->getRight()));
+        }
+        else {
+            auto coefs = limit_copy[i]->getLeft();
+            for (int i = 0; i < check.size(); i++) {
+                if (i == counter) {
+                    if (sign == "<=") {
+                        coefs.push_back(1);
+                    }
+                    else if (sign == ">=") {
+                        coefs.push_back(-1);
+                    }
+                }
+                else {
+                    coefs.push_back(0);
+                }
+            }
+            _limitation.push_back(new Equation(coefs.begin(), coefs.end(), limit_copy[i]->getRight()));
+            counter++;
+        }
+    }
+    _count_variables += check.size();
+    for (int i = 0; i < check.size(); i++) {
+        _func_coef.push_back(0);
+        _var_order.push_back(_var_order.size() + 1);
+    }
 }

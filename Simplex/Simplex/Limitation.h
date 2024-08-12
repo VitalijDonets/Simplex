@@ -26,6 +26,12 @@ public:
         }
         _right = right;
     }
+    ILimitation(ILimitation& other) {
+        for (int i = 0; i < other._left.size(); i++) {
+            this->_left.push_back(other._left[i]);
+        }
+        this->_right = other._right;
+    }
     virtual ~ILimitation() = default;
     virtual const std::string getLimitationType() = 0;
     virtual const std::string getSign() = 0;
